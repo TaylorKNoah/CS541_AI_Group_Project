@@ -1,6 +1,5 @@
 # CS541-AI---Group-Project
-| Members |
-| --- | --- | --- | --- |  
+| Members | --- | --- | --- |
 | Taylor Noah | Jesse Rapoport | Adam Shih | Joel Williams |
 
 Repo for the group project portion of CS541.  We will create an AI which  plays connect 4.
