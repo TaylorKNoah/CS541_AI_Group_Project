@@ -1,5 +1,5 @@
 # CS541-AI---Group-Project
-###Members
+### Members
 - Taylor Noah
 - Jesse Rapoport
 - Adam Shih
