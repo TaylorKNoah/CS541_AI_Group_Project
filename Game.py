@@ -168,10 +168,12 @@ class Game:
     # valid move: there is space in the column at index i
     # returns a boolean list
     def Actions(self, state):
-        actions = [True in range(WIDTH)]
+        actions = []
         for i in range(WIDTH):
             if state[0][i] != EMPTY:
-                actions[i] = False
+                actions.append(False)
+            else:
+                actions.append(True)
 
         return actions
 
