@@ -2,22 +2,9 @@ import time
 import random
 import config
 
-# size of the game board
-WIDTH = 7
-HEIGHT = 6
-
-# characters for the game pieces
-RED = "X"
-BLACK = "O"
-EMPTY = "."
-
 # animation settings
 ANIMATE = True
 FRAME_LENGTH = 0.05
-
-# how many in a row needed to win
-CONNECT_N = 4
-
 
 # creates a connect-4 game object
 class Game:
@@ -120,7 +107,7 @@ class Game:
                 and column + furthest_up - 1 >= 0 \
                 and self.board[row + furthest_up - 1][column + furthest_up - 1] == piece:
             furthest_up -= 1
-        if furthest_down - furthest_up >= CONNECT_N - 1:
+        if furthest_down - furthest_up >= config.CONNECT_N - 1:
             return piece
 
         # check for left-diagonal win
