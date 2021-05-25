@@ -52,7 +52,7 @@ def segment_eval(segment, is_blacks_turn):
     """Evaluates a `CONNECT_N` sized segment on the gameboard.
 
     Args:
-        segment (list[list[str]]): A game board.
+        segment (list[str]): A game board.
         is_blacks_turn (bool): Indicates which player is taking the turn.
 
     Returns:
