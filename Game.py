@@ -17,6 +17,10 @@ FRAME_LENGTH = 0.05
 # how many in a row needed to win
 CONNECT_N = 4
 
+# practical positive and negative infinities
+INF = 1000000
+NINF = -1000000
+
 
 # creates a connect-4 game object
 class Game:
@@ -25,6 +29,10 @@ class Game:
         self.board = []
         self.initialize_board()
         self.blacks_turn = True
+
+        # added this for ABSearch use
+        # to keep seperate from actual game turn
+        self.abs_black_turn = True
 
     # set the board to all empty squares
     def initialize_board(self):
@@ -138,3 +146,51 @@ class Game:
 
         # if no winner, return None
         return None
+
+
+    # Minimax algorithm with Alpha Beta Pruning
+    def Alpha_Beta_Search(self, state, utility_func):
+
+        # gets the optimal value of all possible moves
+        optimal_value = self.Max_Value(state, INF, NINF)
+
+        # gets available actions
+        actions = self.Actions(state)
+
+        # searchs current possibles actions for value equal to optimal
+        # if action is legal then this checks to see if it generates the optimal value
+        # once found, save the index of the action (aka the column to use)
+        for i in range(WIDTH):
+            if actions[i] and  optimal_value == utility_func(self.Result(state, actions[i])):
+                return i
+
+    # uses game state to determine valid move
+    # valid move: there is space in the column at index i
+    # returns a boolean list
+    def Actions(self, state):
+        actions = []
+        for i in range(WIDTH):
+            if state[0][i] != EMPTY:
+                actions.append(False)
+            else:
+                actions.append(True)
+
+        return actions
+
+    # generates new state from state and action
+    # returns resulting state
+    def Result(self, state, action):
+        new_state = state.copy()
+
+        # apply action to state
+        for i in range(HEIGHT):
+            if new_state[i][action] != EMPTY:
+                new_state[i-1][action] = BLACK if self.abs_black_turn else RED
+                break
+            elif i == HEIGHT-1:
+                new_state[i][action] = BLACK if self.abs_black_turn else RED
+                break
+
+        return new_state
+
+
