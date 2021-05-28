@@ -6,10 +6,6 @@ import config
 ANIMATE = True
 FRAME_LENGTH = 0.05
 
-# practical positive and negative infinities
-INF = 1000000
-NINF = -1000000
-
 # creates a connect-4 game object
 class Game:
     # initialize the board and set it to black's turn
@@ -148,7 +144,7 @@ class Game:
         # searchs current possibles actions for value equal to optimal
         # if action is legal then this checks to see if it generates the optimal value
         # once found, save the index of the action (aka the column to use)
-        for i in range(WIDTH):
+        for i in range(config.WIDTH):
             if actions[i] and  optimal_value == utility_func(self.Result(state, actions[i])):
                 return i
 
@@ -157,8 +153,8 @@ class Game:
     # returns a boolean list
     def Actions(self, state):
         actions = []
-        for i in range(WIDTH):
-            if state[0][i] != EMPTY:
+        for i in range(config.WIDTH):
+            if state[0][i] != config.EMPTY:
                 actions.append(False)
             else:
                 actions.append(True)
@@ -171,12 +167,12 @@ class Game:
         new_state = state.copy()
 
         # apply action to state
-        for i in range(HEIGHT):
-            if new_state[i][action] != EMPTY:
-                new_state[i-1][action] = BLACK if self.abs_black_turn else RED
+        for i in range(config.HEIGHT):
+            if new_state[i][action] != config.EMPTY:
+                new_state[i-1][action] = config.BLACK if self.abs_black_turn else config.RED
                 break
-            elif i == HEIGHT-1:
-                new_state[i][action] = BLACK if self.abs_black_turn else RED
+            elif i == config.HEIGHT-1:
+                new_state[i][action] = config.BLACK if self.abs_black_turn else config.RED
                 break
 
         return new_state
