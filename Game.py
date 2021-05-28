@@ -136,7 +136,7 @@ class Game:
     def Alpha_Beta_Search(self, state, utility_func):
 
         # gets the optimal value of all possible moves
-        optimal_value = self.Max_Value(state, INF, NINF)
+        optimal_value = self.Max_Value(state, config.INF, config.NINF)
 
         # gets available actions
         actions = self.Actions(state)
