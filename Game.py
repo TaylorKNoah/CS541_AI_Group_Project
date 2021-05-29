@@ -151,7 +151,7 @@ class Game:
     def Max_Value(self, state, alpha, beta, utility_func):
         # check if at term state - ret util
         if self.Term_Test(state):
-            return utility_func(state)
+            return utility_func(state, self.blacks_turn)
         
         # set value to -inf
         value = config.NINF
@@ -182,7 +182,7 @@ class Game:
     def Min_Value(self, state, alpha, beta, utility_func):
         # check if at term state - ret util
         if self.Term_Test(state):
-            return utility_func(state)
+            return utility_func(state, self.blacks_turn)
         
         # set value to -inf
         value = config.INF
