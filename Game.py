@@ -4,7 +4,7 @@ import config
 
 # animation settings
 ANIMATE = True
-FRAME_LENGTH = 0.05
+FRAME_LENGTH = 0.01
 
 # practical positive and negative infinities
 INF = 1000000
@@ -13,7 +13,7 @@ NINF = -1000000
 # creates a connect-4 game object
 class Game:
     # initialize the board and set it to black's turn
-    def __init__(self, ):
+    def __init__(self):
         self.board = []
         self.initialize_board()
         self.blacks_turn = True
