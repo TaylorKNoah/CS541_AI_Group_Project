@@ -10,6 +10,10 @@ EMPTY = "."
 # how many in a row needed to win
 CONNECT_N = 4
 
+# practical positive and negative infinities
+INF = 1000000
+NINF = -1000000
+
 # which heuristic function to call
 HEURISTIC = "consecutive"
 # HEURISTIC = "radius"
