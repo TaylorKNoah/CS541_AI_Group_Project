@@ -5,6 +5,13 @@ import tests
 
 
 def main():
+    print('Connect 4 AI Program')
+    print('====================')
+    print('a) human vs. AI')
+    print('b) AI vs. AI')
+    choice = input('Enter game mode: ')
+    if choice == 'a':
+
     """
     # play a game of up to 50 random moves, and stop once there's a winner.
     game = Game.Game()
@@ -16,9 +23,10 @@ def main():
             break
     if not winner:
         print("Cat's game.")
-    """
+        
     # run the heuristic tests
     tests.heuristic_tests()
+    """
 
 
 if __name__ == "__main__":
