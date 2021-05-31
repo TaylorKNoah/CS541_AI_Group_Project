@@ -1,5 +1,6 @@
 import config
 
+
 def evaluation_fn(state, is_blacks_turn):
     """Wrapper function to call an evaluation function
     Args:
@@ -14,7 +15,6 @@ def evaluation_fn(state, is_blacks_turn):
         return consecutive_evaluation(state, is_blacks_turn)
     elif config.HEURISTIC == "radius":
         return radius_evaluation(state, is_blacks_turn)
-
 
 
 # radius evaluation functions
@@ -37,6 +37,7 @@ def radius_evaluation(state, is_blacks_turn):
             if state[row][col] != config.EMPTY:
                 score += single_piece_radius(state, is_blacks_turn, row, col)
     return score
+
 
 def single_piece_radius(state, is_blacks_turn, row, col):
     """Evaluates status of a single piece by looking at others within n. radius
@@ -81,7 +82,6 @@ def single_piece_radius(state, is_blacks_turn, row, col):
     return score if center_isnt_opponent else int(config.OPPONENT_VALUE * score)
 
 
-
 # consecutive evaluation functions
 
 def consecutive_evaluation(state, is_blacks_turn):
@@ -98,7 +98,7 @@ def consecutive_evaluation(state, is_blacks_turn):
     offset = config.CONNECT_N - 1
 
     # iterate over all possible segments of 4 pieces
-    
+
     # horizontal
     for row in range(config.HEIGHT):
         for col in range(config.WIDTH - offset):
@@ -128,6 +128,7 @@ def consecutive_evaluation(state, is_blacks_turn):
             score += consecutive_segment_eval(segment, is_blacks_turn)
 
     return score
+
 
 def consecutive_segment_eval(segment, is_blacks_turn):
     """Evaluates a `CONNECT_N` sized segment on the gameboard.
@@ -163,7 +164,6 @@ def consecutive_segment_eval(segment, is_blacks_turn):
     # 2 in a row with the possibility of 3/4
     elif piece_count == 2 and empty_count == 2:
         score += config.TWO_SCORE
-
 
     # subtract points for opponent strings
     if opponent_count == 3 and empty_count == 1:

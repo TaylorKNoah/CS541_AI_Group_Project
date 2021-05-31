@@ -5,7 +5,7 @@ import tests
 
 
 def main():
-    '''
+    """
     # play a game of up to 50 random moves, and stop once there's a winner.
     game = Game.Game()
     for i in range(50):
@@ -16,14 +16,11 @@ def main():
             break
     if not winner:
         print("Cat's game.")
-    '''
+    """
     # run the heuristic tests
     tests.heuristic_tests()
-
-
 
 
 if __name__ == "__main__":
     main()
 furthest_down = 0
-

@@ -2,26 +2,26 @@ from config import EMPTY, RED, BLACK, HEIGHT, WIDTH
 import utility
 
 # test board
-black_good  = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, BLACK, BLACK, RED,   EMPTY, EMPTY], 
-               [EMPTY, EMPTY, BLACK, BLACK, RED,   EMPTY, EMPTY]]
+black_good = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+              [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+              [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+              [EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY],
+              [EMPTY, EMPTY, BLACK, BLACK, RED, EMPTY, EMPTY],
+              [EMPTY, EMPTY, BLACK, BLACK, RED, EMPTY, EMPTY]]
 
-black_win   = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY], 
-               [EMPTY, EMPTY, BLACK, BLACK, RED,   EMPTY, EMPTY], 
-               [EMPTY, EMPTY, BLACK, BLACK, RED,   EMPTY, EMPTY]]
+black_win = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, EMPTY, BLACK, EMPTY, EMPTY, EMPTY],
+             [EMPTY, EMPTY, BLACK, BLACK, RED, EMPTY, EMPTY],
+             [EMPTY, EMPTY, BLACK, BLACK, RED, EMPTY, EMPTY]]
 
-just_red   = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-              [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-              [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY], 
-              [EMPTY, EMPTY, RED,   RED,   RED,   EMPTY, EMPTY], 
-              [EMPTY, EMPTY, RED,   RED,   RED,   EMPTY, EMPTY], 
-              [EMPTY, EMPTY, RED,   RED,   RED,   EMPTY, EMPTY]]
+just_red = [[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, RED, RED, RED, EMPTY, EMPTY],
+            [EMPTY, EMPTY, RED, RED, RED, EMPTY, EMPTY],
+            [EMPTY, EMPTY, RED, RED, RED, EMPTY, EMPTY]]
 
 
 # do heuristic tests on multiple boards
@@ -29,6 +29,7 @@ def heuristic_tests():
     test_heuristic_on_board(black_good)
     test_heuristic_on_board(black_win)
     test_heuristic_on_board(just_red)
+
 
 # test the heuristics on a single board
 def test_heuristic_on_board(board):
@@ -49,4 +50,3 @@ def test_heuristic_on_board(board):
 
     print()
     print()
-
