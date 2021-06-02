@@ -162,13 +162,13 @@ class Game:
         actions = self.Actions(state)
 
         # iterate through actions looking for valid actions
-        for i in range(actions):
+        for i in range(len(actions)):
             if actions[i]:
                 # get val of next possible move given action[i]
                 temp = self.Min_Value(self.Result(state, i), alpha, beta, utility_func)
                 # update value with greatest return value from Min_Value
                 if temp > value:
-                    value = temp;
+                    value = temp
 
                 # prune if val greate than beta
                 # max will return a number no less than value
