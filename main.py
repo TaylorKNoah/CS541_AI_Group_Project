@@ -10,7 +10,6 @@ def main():
     menu = GameMenu(game)
     menu.main_menu()
 
-
     """
     # play a game of up to 50 random moves, and stop once there's a winner.
     game = Game.Game()
