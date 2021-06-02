@@ -1,24 +1,7 @@
 import config
 
 
-def evaluation_fn(state, is_blacks_turn):
-    """Wrapper function to call an evaluation function
-    Args:
-        state (list[list[str]]): A game board.
-        is_blacks_turn (bool): Indicates which player is taking the turn.
-
-    Returns:
-        An int representing the optimality of the state. Higher numbers
-        should be prioritized over lower.
-    """
-    if config.HEURISTIC == "consecutive":
-        return consecutive_evaluation(state, is_blacks_turn)
-    elif config.HEURISTIC == "radius":
-        return radius_evaluation(state, is_blacks_turn)
-
-
 # radius evaluation functions
-
 def radius_evaluation(state, is_blacks_turn):
     """Evaluates status of the board by looking at matching pieces within n. radius
     Args:

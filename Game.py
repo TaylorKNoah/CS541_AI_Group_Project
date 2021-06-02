@@ -1,6 +1,7 @@
 import time
 import random
 import config
+from utility import consecutive_evaluation, radius_evaluation
 
 # animation settings
 ANIMATE = True
@@ -14,6 +15,8 @@ class Game:
         self.board = []
         self.initialize_board()
         self.blacks_turn = True
+        self.heuristic_player1 = None
+        self.heuristic_player2 = None
 
         # added this for ABSearch use
         # to keep seperate from actual game turn
@@ -279,3 +282,18 @@ class Game:
                 break
 
         return new_state
+
+    def evaluation_fn(self, state, is_blacks_turn):
+        """Wrapper function to call an evaluation function
+        Args:
+            state (list[list[str]]): A game board.
+            is_blacks_turn (bool): Indicates which player is taking the turn.
+
+        Returns:
+            An int representing the optimality of the state. Higher numbers
+            should be prioritized over lower.
+        """
+        if self.heuristic == "consecutive":
+            return consecutive_evaluation(state, is_blacks_turn)
+        elif self.heuristic == "radius":
+            return radius_evaluation(state, is_blacks_turn)

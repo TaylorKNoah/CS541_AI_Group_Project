@@ -1,16 +1,15 @@
-import Game
+from Game import Game
+from menu import GameMenu
 import utility
 import config
 import tests
 
 
 def main():
-    print('Connect 4 AI Program')
-    print('====================')
-    print('a) human vs. AI')
-    print('b) AI vs. AI')
-    choice = input('Enter game mode: ')
-    if choice == 'a':
+    game = Game()
+    menu = GameMenu(game)
+    menu.main_menu()
+
 
     """
     # play a game of up to 50 random moves, and stop once there's a winner.
