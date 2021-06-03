@@ -1,10 +1,15 @@
-import Game
+from Game import Game
+from menu import GameMenu
 import utility
 import config
 import tests
 
 
 def main():
+    game = Game()
+    menu = GameMenu(game)
+    menu.main_menu()
+
     """
     # play a game of up to 50 random moves, and stop once there's a winner.
     game = Game.Game()
@@ -16,9 +21,10 @@ def main():
             break
     if not winner:
         print("Cat's game.")
-    """
+        
     # run the heuristic tests
     tests.heuristic_tests()
+    """
 
 
 if __name__ == "__main__":

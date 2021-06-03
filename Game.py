@@ -1,6 +1,7 @@
 import time
 import random
 import config
+from utility import consecutive_evaluation, radius_evaluation
 
 # animation settings
 ANIMATE = True
@@ -14,6 +15,8 @@ class Game:
         self.board = []
         self.initialize_board()
         self.blacks_turn = True
+        self.heuristic_black = None
+        self.heuristic_red = None
 
         # added this for ABSearch use
         # to keep seperate from actual game turn
@@ -159,13 +162,13 @@ class Game:
         actions = self.Actions(state)
 
         # iterate through actions looking for valid actions
-        for i in range(actions):
+        for i in range(len(actions)):
             if actions[i]:
                 # get val of next possible move given action[i]
                 temp = self.Min_Value(self.Result(state, i), alpha, beta, utility_func)
                 # update value with greatest return value from Min_Value
                 if temp > value:
-                    value = temp;
+                    value = temp
 
                 # prune if val greate than beta
                 # max will return a number no less than value
@@ -279,3 +282,24 @@ class Game:
                 break
 
         return new_state
+
+    def evaluation_fn(self, state, is_blacks_turn):
+        """Wrapper function to call an evaluation function
+        Args:
+            state (list[list[str]]): A game board.
+            is_blacks_turn (bool): Indicates which player is taking the turn.
+
+        Returns:
+            An int representing the optimality of the state. Higher numbers
+            should be prioritized over lower.
+        """
+        if is_blacks_turn:
+            if self.heuristic_black == "consecutive":
+                return consecutive_evaluation(state, is_blacks_turn)
+            elif self.heuristic_black == "radius":
+                return radius_evaluation(state, is_blacks_turn)
+        else:
+            if self.heuristic_red == "consecutive":
+                return consecutive_evaluation(state, is_blacks_turn)
+            elif self.heuristic_red == "radius":
+                return radius_evaluation(state, is_blacks_turn)
