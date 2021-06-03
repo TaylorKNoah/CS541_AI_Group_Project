@@ -37,10 +37,10 @@ class GameMenu:
     def human_vs_ai(self):
         winner = False
         self.game.heuristic_red = self.heuristic_selection()
+        self.game.print_board()
         while not winner:
-            self.game.print_board()
             move = int(input('Enter a column to play (0-6): '))
-            if move != range(0, 6):
+            if move < 0 or move > 6:
                 print('Not a valid move. Try again.')
             else:
                 winner = self.game.play_move(move)
