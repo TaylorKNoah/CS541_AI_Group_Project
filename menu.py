@@ -36,18 +36,36 @@ class GameMenu:
 
     def human_vs_ai(self):
         winner = False
+        players_turn = True
         self.game.heuristic_red = self.heuristic_selection()
         self.game.print_board()
         while not winner:
-            move = int(input('Enter a column to play (0-6): '))
+            if players_turn:
+                move = int(input('Enter a column to play (0-6): '))
+            else:
+                move = self.game.Alpha_Beta_Search(self.game.board)
+            players_turn = not players_turn
             if move < 0 or move > 6:
                 print('Not a valid move. Try again.')
             else:
-                winner = self.game.play_move(move)
-                # call AI move here
+               winner = self.game.play_move(move)
+
 
     def ai_vs_ai(self):
         print('| AI Player 1 |')
         self.game.heuristic_black = self.heuristic_selection()
         print('| AI Player 2 |')
         self.game.heuristic_red = self.heuristic_selection()
+
+        winner = False
+        self.game.print_board()
+
+        while not winner:
+
+            move = self.game.Alpha_Beta_Search(self.game.board)
+
+            if move < 0 or move > 6:
+                print('Not a valid move. Try again.')
+            else:
+               winner = self.game.play_move(move)
+
