@@ -1,7 +1,9 @@
+from menu import GameMenu
 import time
 import random
 import config
 from utility import consecutive_evaluation, radius_evaluation
+import copy
 
 # animation settings
 ANIMATE = True
@@ -136,10 +138,13 @@ class Game:
         return None
 
     # Minimax algorithm with Alpha Beta Pruning
-    def Alpha_Beta_Search(self, state, utility_func):
-
+    def Alpha_Beta_Search(self, state):
         # gets the optimal value of all possible moves
-        optimal_value = self.Max_Value(state, config.INF, config.NINF, utility_func)
+        _, optimal_action = self.Max_Value(state, config.NINF, config.INF, 6)
+
+        return  optimal_action
+
+        '''
 
         # gets available actions
         actions = self.Actions(state)
@@ -148,13 +153,21 @@ class Game:
         # if action is legal then this checks to see if it generates the optimal value
         # once found, save the index of the action (aka the column to use)
         for i in range(config.WIDTH):
-            if actions[i] and optimal_value == utility_func(self.Result(state, actions[i])):
+            if actions[i] and optimal_value == self.evaluation_fn(self.Result(state, actions[i]), self.blacks_turn):
                 return i
+        '''
 
-    def Max_Value(self, state, alpha, beta, utility_func):
+    def Max_Value(self, state, alpha, beta, depth):
+        opt_action = 0
+        if depth == 0:
+            return self.evaluation_fn(state, self.blacks_turn), opt_action
+
+        # decrease depth
+        depth -= 1
+
         # check if at term state - ret util
         if self.Term_Test(state):
-            return utility_func(state, self.blacks_turn)
+            return self.evaluation_fn(state, self.blacks_turn), opt_action
 
         # set value to -inf
         value = config.NINF
@@ -164,10 +177,12 @@ class Game:
         # iterate through actions looking for valid actions
         for i in range(len(actions)):
             if actions[i]:
+                self.abs_black_turn = self.blacks_turn
                 # get val of next possible move given action[i]
-                temp = self.Min_Value(self.Result(state, i), alpha, beta, utility_func)
+                temp = self.Min_Value(self.Result(state, i), copy.copy(alpha), copy.copy(beta), copy.copy(depth))
                 # update value with greatest return value from Min_Value
                 if temp > value:
+                    opt_action = i
                     value = temp
 
                 # prune if val greate than beta
@@ -175,17 +190,22 @@ class Game:
                 # but min will never take this return val
                 # bc beta(min-so-far) is less than value
                 if value >= beta:
-                    return value
+                    return value, opt_action
 
                 # update alpha with MAX(value, alpha)
                 if value > alpha:
                     alpha = value
-        return value
+        return value, opt_action
 
-    def Min_Value(self, state, alpha, beta, utility_func):
+    def Min_Value(self, state, alpha, beta, depth):
+        if depth == 0:
+            return self.evaluation_fn(state, self.blacks_turn)
+
+        depth -= 1
+
         # check if at term state - ret util
         if self.Term_Test(state):
-            return utility_func(state, self.blacks_turn)
+            return self.evaluation_fn(state, self.blacks_turn)
 
         # set value to -inf
         value = config.INF
@@ -193,10 +213,11 @@ class Game:
         actions = self.Actions(state)
 
         # iterate through actions looking for valid actions
-        for i in range(actions):
+        for i in range(len(actions)):
             if actions[i]:
+                self.abs_black_turn = not self.blacks_turn
                 # get val of next possible move given action[i]
-                temp = self.Max_Value(self.Result(state, i), alpha, beta, utility_func)
+                temp, _ = self.Max_Value(self.Result(state, i), copy.copy(alpha), copy.copy(beta), copy.copy(depth))
                 # update value with least return value from Max_Value
                 if temp < value:
                     value = temp;
@@ -205,7 +226,7 @@ class Game:
                 # min will return a number no greater than value
                 # but max will never take this return val
                 # bc alpha(max-so-far) is greater than value
-                if value <= beta:
+                if value <= alpha:
                     return value
 
                 # update beta with MIN(value, beta)
@@ -220,37 +241,39 @@ class Game:
         for i in range(config.HEIGHT):
             for j in range(config.WIDTH):
 
-                # cols
-                # if there is room for col win
-                if i < config.HEIGHT - 3:
-                    if state[i + 1][j] == state[i][j]:
-                        if state[i + 2][j] == state[i][j]:
-                            if state[i + 3j][j] == state[i][j]:
-                                return True
+                # if cell is not empty
+                if state[i][j] != '.':
+                    # cols
+                    # if there is room for col win
+                    if i < config.HEIGHT - 3:
+                        if state[i + 1][j] == state[i][j]:
+                            if state[i + 2][j] == state[i][j]:
+                                if state[i + 3][j] == state[i][j]:
+                                    return True
 
-                # rows
-                # if there is room for row win
-                if j < config.WIDTH - 3:
-                    if state[i][j + 1] == state[i][j]:
-                        if state[i][j + 2] == state[i][j]:
-                            if state[i][j + 3] == state[i][j]:
-                                return True
+                    # rows
+                    # if there is room for row win
+                    if j < config.WIDTH - 3:
+                        if state[i][j + 1] == state[i][j]:
+                            if state[i][j + 2] == state[i][j]:
+                                if state[i][j + 3] == state[i][j]:
+                                    return True
 
-                # right diagonal
-                # if room
-                if i < config.HEIGHT - 3 and j < config.WIDTH - 3:
-                    if state[i + 1][j + 1] == state[i][j]:
-                        if state[i + 2][j + 2] == state[i][j]:
-                            if state[i + 3][j + 3] == state[i][j]:
-                                return True
+                    # right diagonal
+                    # if room
+                    if i < config.HEIGHT - 3 and j < config.WIDTH - 3:
+                        if state[i + 1][j + 1] == state[i][j]:
+                            if state[i + 2][j + 2] == state[i][j]:
+                                if state[i + 3][j + 3] == state[i][j]:
+                                    return True
 
-                # left diagonal
-                # if room
-                if i < config.HEIGHT - 3 and j > 2:
-                    if state[i + 1][j - 1] == state[i][j]:
-                        if state[i + 2][j - 2] == state[i][j]:
-                            if state[i + 3][j - 3] == state[i][j]:
-                                return True
+                    # left diagonal
+                    # if room
+                    if i < config.HEIGHT - 3 and j > 2:
+                        if state[i + 1][j - 1] == state[i][j]:
+                            if state[i + 2][j - 2] == state[i][j]:
+                                if state[i + 3][j - 3] == state[i][j]:
+                                    return True
 
         return False
 
@@ -270,7 +293,7 @@ class Game:
     # generates new state from state and action
     # returns resulting state
     def Result(self, state, action):
-        new_state = state.copy()
+        new_state = copy.deepcopy(state)
 
         # apply action to state
         for i in range(config.HEIGHT):
@@ -280,6 +303,8 @@ class Game:
             elif i == config.HEIGHT - 1:
                 new_state[i][action] = config.BLACK if self.abs_black_turn else config.RED
                 break
+
+        self.abs_black_turn = not self.abs_black_turn
 
         return new_state
 
@@ -303,3 +328,5 @@ class Game:
                 return consecutive_evaluation(state, is_blacks_turn)
             elif self.heuristic_red == "radius":
                 return radius_evaluation(state, is_blacks_turn)
+
+
