@@ -1,4 +1,5 @@
 import config
+import math
 
 
 # radius evaluation functions
@@ -155,3 +156,47 @@ def consecutive_segment_eval(segment, is_blacks_turn):
         score += config.OPPONENT_TWO_SCORE
 
     return score
+
+
+# Determines if state is a terminal position
+#  -either min or max has won
+# returns true if win state, else false
+def term_test(state):
+    for i in range(config.HEIGHT):
+        for j in range(config.WIDTH):
+
+            # if cell is not empty
+            if state[i][j] != '.':
+                # cols
+                # if there is room for col win
+                if i < config.HEIGHT - 3:
+                    if state[i + 1][j] == state[i][j]:
+                        if state[i + 2][j] == state[i][j]:
+                            if state[i + 3][j] == state[i][j]:
+                                return True
+
+                # rows
+                # if there is room for row win
+                if j < config.WIDTH - 3:
+                    if state[i][j + 1] == state[i][j]:
+                        if state[i][j + 2] == state[i][j]:
+                            if state[i][j + 3] == state[i][j]:
+                                return True
+
+                # right diagonal
+                # if room
+                if i < config.HEIGHT - 3 and j < config.WIDTH - 3:
+                    if state[i + 1][j + 1] == state[i][j]:
+                        if state[i + 2][j + 2] == state[i][j]:
+                            if state[i + 3][j + 3] == state[i][j]:
+                                return True
+
+                # left diagonal
+                # if room
+                if i < config.HEIGHT - 3 and j > 2:
+                    if state[i + 1][j - 1] == state[i][j]:
+                        if state[i + 2][j - 2] == state[i][j]:
+                            if state[i + 3][j - 3] == state[i][j]:
+                                return True
+
+    return False

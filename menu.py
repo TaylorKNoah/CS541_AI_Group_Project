@@ -1,3 +1,4 @@
+from Game import Game
 
 
 class GameMenu:
@@ -9,14 +10,17 @@ class GameMenu:
         print('====================')
         print('a) human vs. AI')
         print('b) AI vs. AI')
+        print('c) Evaluation Mode')
         choice = input('Enter game mode: ')
         choice = choice.lower()
         if choice == 'a':
             self.human_vs_ai()
         elif choice == 'b':
             self.ai_vs_ai()
+        elif choice == 'c':
+            self.evaluation()
         else:
-            print(f'Please enter either a or b, {choice} isn\'t a valid entry!')
+            print(f'Please enter either a, b, or c {choice} isn\'t a valid entry!')
             self.main_menu()
 
     def heuristic_selection(self):
@@ -48,8 +52,7 @@ class GameMenu:
             if move < 0 or move > 6:
                 print('Not a valid move. Try again.')
             else:
-               winner = self.game.play_move(move)
-
+                winner = self.game.play_move(move)
 
     def ai_vs_ai(self):
         print('| AI Player 1 |')
@@ -67,5 +70,36 @@ class GameMenu:
             if move < 0 or move > 6:
                 print('Not a valid move. Try again.')
             else:
-               winner = self.game.play_move(move)
+                winner = self.game.play_move(move)
 
+    def evaluation(self):
+        winner = False
+        blacks_turn = True
+        player1_score = 0
+        player2_score = 0
+
+        print('| AI Player 1 |')
+        self.game.heuristic_black = self.heuristic_selection()
+        print('| AI Player 2 |')
+        self.game.heuristic_red = self.heuristic_selection()
+
+        print('Playing 5,000 games of AI vs. AI')
+        print('[', end='')
+        for i in range(5000):
+            game = Game()
+            game.animate = False
+            if i % 100 == 0:
+                print('=', end='')
+            while not winner:
+                move = game.Alpha_Beta_Search(game.board)
+                winner = game.play_move(move)
+                blacks_turn = not blacks_turn
+
+            if blacks_turn:
+                player2_score += 1
+            else:
+                player1_score += 1
+            winner = False
+        print(']')
+        print(f'AI Player 1 won {player1_score / 5000} of the time')
+        print(f'AI Player 2 won {player2_score / 5000} of the time')

@@ -4,8 +4,7 @@ import utility
 import config
 import tests
 
-
-def main():
+if __name__ == "__main__":
     game = Game()
     menu = GameMenu(game)
     menu.main_menu()
@@ -21,12 +20,7 @@ def main():
             break
     if not winner:
         print("Cat's game.")
-        
+
     # run the heuristic tests
     tests.heuristic_tests()
     """
-
-
-if __name__ == "__main__":
-    main()
-furthest_down = 0

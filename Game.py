@@ -1,12 +1,10 @@
-from menu import GameMenu
 import time
 import random
 import config
-from utility import consecutive_evaluation, radius_evaluation
+from utility import consecutive_evaluation, radius_evaluation, term_test
 import copy
 
 # animation settings
-ANIMATE = True
 FRAME_LENGTH = 0.01
 
 
@@ -14,6 +12,7 @@ FRAME_LENGTH = 0.01
 class Game:
     # initialize the board and set it to black's turn
     def __init__(self):
+        self.animate = True
         self.board = []
         self.initialize_board()
         self.blacks_turn = True
@@ -56,7 +55,7 @@ class Game:
         # now have it slowly fall down the column
         for i in range(1, config.HEIGHT):
             # print the board if we are animating the move
-            if ANIMATE:
+            if self.animate:
                 # print the board
                 self.print_board()
                 # sleep to make it animate smoothly
@@ -142,7 +141,7 @@ class Game:
         # gets the optimal value of all possible moves
         _, optimal_action = self.Max_Value(state, config.NINF, config.INF, 6)
 
-        return  optimal_action
+        return optimal_action
 
         '''
 
@@ -166,7 +165,7 @@ class Game:
         depth -= 1
 
         # check if at term state - ret util
-        if self.Term_Test(state):
+        if term_test(state):
             return self.evaluation_fn(state, self.blacks_turn), opt_action
 
         # set value to -inf
@@ -204,7 +203,7 @@ class Game:
         depth -= 1
 
         # check if at term state - ret util
-        if self.Term_Test(state):
+        if term_test(state):
             return self.evaluation_fn(state, self.blacks_turn)
 
         # set value to -inf
@@ -220,7 +219,7 @@ class Game:
                 temp, _ = self.Max_Value(self.Result(state, i), copy.copy(alpha), copy.copy(beta), copy.copy(depth))
                 # update value with least return value from Max_Value
                 if temp < value:
-                    value = temp;
+                    value = temp
 
                 # prune if val less than alpha
                 # min will return a number no greater than value
@@ -233,49 +232,6 @@ class Game:
                 if value < beta:
                     beta = value
         return value
-
-    # Determines if state is a terminal position
-    #  -either min or max has won
-    # returns true if win state, else false
-    def Term_Test(self, state):
-        for i in range(config.HEIGHT):
-            for j in range(config.WIDTH):
-
-                # if cell is not empty
-                if state[i][j] != '.':
-                    # cols
-                    # if there is room for col win
-                    if i < config.HEIGHT - 3:
-                        if state[i + 1][j] == state[i][j]:
-                            if state[i + 2][j] == state[i][j]:
-                                if state[i + 3][j] == state[i][j]:
-                                    return True
-
-                    # rows
-                    # if there is room for row win
-                    if j < config.WIDTH - 3:
-                        if state[i][j + 1] == state[i][j]:
-                            if state[i][j + 2] == state[i][j]:
-                                if state[i][j + 3] == state[i][j]:
-                                    return True
-
-                    # right diagonal
-                    # if room
-                    if i < config.HEIGHT - 3 and j < config.WIDTH - 3:
-                        if state[i + 1][j + 1] == state[i][j]:
-                            if state[i + 2][j + 2] == state[i][j]:
-                                if state[i + 3][j + 3] == state[i][j]:
-                                    return True
-
-                    # left diagonal
-                    # if room
-                    if i < config.HEIGHT - 3 and j > 2:
-                        if state[i + 1][j - 1] == state[i][j]:
-                            if state[i + 2][j - 2] == state[i][j]:
-                                if state[i + 3][j - 3] == state[i][j]:
-                                    return True
-
-        return False
 
     # uses game state to determine valid move
     # valid move: there is space in the column at index i
