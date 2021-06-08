@@ -139,7 +139,8 @@ class Game:
     # Minimax algorithm with Alpha Beta Pruning
     def Alpha_Beta_Search(self, state):
         # gets the optimal value of all possible moves
-        _, optimal_action = self.Max_Value(state, config.NINF, config.INF, 6)
+        _, optimal_action = self.Max_Value(state, config.NINF, config.INF, config.DEPTH)
+
 
         return optimal_action
 
@@ -174,11 +175,18 @@ class Game:
         actions = self.Actions(state)
 
         # iterate through actions looking for valid actions
+        # keep a list of action values and either choose the best
+        # or choose at random
+        possibilities = [config.NINF for i in range(config.WIDTH)]
         for i in range(len(actions)):
             if actions[i]:
                 self.abs_black_turn = self.blacks_turn
                 # get val of next possible move given action[i]
                 temp = self.Min_Value(self.Result(state, i), copy.copy(alpha), copy.copy(beta), copy.copy(depth))
+
+                # update valid action values in possibilities for exploration
+                possibilities[i] = temp
+
                 # update value with greatest return value from Min_Value
                 if temp > value:
                     opt_action = i
@@ -194,6 +202,23 @@ class Game:
                 # update alpha with MAX(value, alpha)
                 if value > alpha:
                     alpha = value
+
+        # at last action comparison before returning to ABS
+        # chance for "exploration action"
+        # random val between 0 and 1, if less that epsilon, choose rand
+        if depth == config.DEPTH - 1:
+            rval = (random.randint(1, 100) / 100)
+            if rval < config.EPSILON:
+                rval = random.randint(0, config.WIDTH - 1)
+                # ensure rnad action is valid
+                while(possibilities[rval] == config.NINF):
+                    rval = random.randint(0, config.WIDTH)
+
+                config.RMOVES += 1
+                # return rand action + value
+                return possibilities[rval], rval
+
+        # return optimal action and value
         return value, opt_action
 
     def Min_Value(self, state, alpha, beta, depth):
