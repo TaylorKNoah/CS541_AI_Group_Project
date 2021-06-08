@@ -14,6 +14,12 @@ CONNECT_N = 4
 INF = 1000000
 NINF = -1000000
 
+# epsilon value for exploration moves
+# currently at 10%
+EPSILON = 0.13
+DEPTH = 6
+RMOVES = 0
+
 # which heuristic function to call
 HEURISTIC = "consecutive"
 # HEURISTIC = "radius"
