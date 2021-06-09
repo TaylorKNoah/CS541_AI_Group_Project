@@ -1,9 +1,10 @@
 from Game import Game
+from config import N_EVALUATION_GAMES
 
 
 class GameMenu:
-    def __init__(self, game):
-        self.game = game
+    def __init__(self):
+        pass
 
     def main_menu(self):
         print('Connect 4 AI Program')
@@ -41,36 +42,38 @@ class GameMenu:
     def human_vs_ai(self):
         winner = False
         players_turn = True
-        self.game.heuristic_red = self.heuristic_selection()
-        self.game.print_board()
+        game = Game()
+        game.heuristic_red = self.heuristic_selection()
+        game.print_board()
         while not winner:
             if players_turn:
                 move = int(input('Enter a column to play (0-6): '))
             else:
-                move = self.game.Alpha_Beta_Search(self.game.board)
+                move = game.Alpha_Beta_Search(game.board)
             players_turn = not players_turn
             if move < 0 or move > 6:
                 print('Not a valid move. Try again.')
             else:
-                winner = self.game.play_move(move)
+                winner = game.play_move(move)
 
     def ai_vs_ai(self):
+        game = Game()
         print('| AI Player 1 |')
-        self.game.heuristic_black = self.heuristic_selection()
+        game.heuristic_black = self.heuristic_selection()
         print('| AI Player 2 |')
-        self.game.heuristic_red = self.heuristic_selection()
+        game.heuristic_red = self.heuristic_selection()
 
         winner = False
-        self.game.print_board()
+        game.print_board()
 
         while not winner:
 
-            move = self.game.Alpha_Beta_Search(self.game.board)
+            move = game.Alpha_Beta_Search(game.board)
 
             if move < 0 or move > 6:
                 print('Not a valid move. Try again.')
             else:
-                winner = self.game.play_move(move)
+                winner = game.play_move(move)
 
     def evaluation(self):
         winner = False
@@ -79,17 +82,18 @@ class GameMenu:
         player2_score = 0
 
         print('| AI Player 1 |')
-        self.game.heuristic_black = self.heuristic_selection()
+        heuristic_black = self.heuristic_selection()
         print('| AI Player 2 |')
-        self.game.heuristic_red = self.heuristic_selection()
+        heuristic_red = self.heuristic_selection()
 
-        print('Playing 5,000 games of AI vs. AI')
-        print('[', end='')
-        for i in range(5000):
+        print('Playing {N_EVALUATION_GAMES} games of AI vs. AI')
+        for i in range(N_EVALUATION_GAMES):
             game = Game()
             game.animate = False
+            game.heuristic_black = heuristic_black
+            game.heuristic_red = heuristic_red
             if i % 100 == 0:
-                print('=', end='')
+                print(f'{i} games done')
             while not winner:
                 move = game.Alpha_Beta_Search(game.board)
                 winner = game.play_move(move)
@@ -100,6 +104,5 @@ class GameMenu:
             else:
                 player1_score += 1
             winner = False
-        print(']')
-        print(f'AI Player 1 won {player1_score / 5000} of the time')
-        print(f'AI Player 2 won {player2_score / 5000} of the time')
+        print(f'AI Player 1 won {100 * player1_score / N_EVALUATION_GAMES}% of the time')
+        print(f'AI Player 2 won {100 * player2_score / N_EVALUATION_GAMES}% of the time')
