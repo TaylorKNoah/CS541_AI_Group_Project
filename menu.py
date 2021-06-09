@@ -32,9 +32,9 @@ class GameMenu:
         choice = input('Enter heuristic mode: ')
         choice = choice.lower()
         if choice == 'a':
-            return "consecutive"
-        elif choice == 'b':
             return "radius"
+        elif choice == 'b':
+            return "consecutive"
         else:
             print(f'Please enter either a or b, {choice} isn\'t a valid entry!')
             self.heuristic_selection()
