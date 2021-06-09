@@ -38,6 +38,8 @@ class Game:
             print()
         # print the board
         for i in range(config.HEIGHT):
+            if i == 0:
+                print("0 1 2 3 4 5 6")
             for j in range(config.WIDTH):
                 print(self.board[i][j], end=" ")
             print()
