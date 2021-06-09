@@ -64,7 +64,9 @@ class Game:
             if self.board[i][column] != config.EMPTY:
                 # switch whose turn it is
                 self.blacks_turn = not self.blacks_turn
-                self.print_board()
+                # print the board as we leave
+                if self.animate:
+                    self.print_board()
                 # return whether this move won or not
                 return self.is_it_winning_move(i - 1, column)
             # set this square to black or red according to whose turn it is
@@ -74,7 +76,8 @@ class Game:
         # if we made it to the bottom row, switch whose turn it is
         self.blacks_turn = not self.blacks_turn
         # print the board as we leave
-        self.print_board()
+        if self.animate:
+            self.print_board()
         # return whether the last move won or not
         return self.is_it_winning_move(config.HEIGHT - 1, column)
 
@@ -212,12 +215,11 @@ class Game:
                 rval = random.randint(0, config.WIDTH - 1)
                 # ensure rnad action is valid
                 while(possibilities[rval] == config.NINF):
-                    rval = random.randint(0, config.WIDTH)
+                    rval = random.randint(0, config.WIDTH - 1)
 
                 config.RMOVES += 1
                 # return rand action + value
                 return possibilities[rval], rval
-
         # return optimal action and value
         return value, opt_action
 
@@ -309,5 +311,3 @@ class Game:
                 return consecutive_evaluation(state, is_blacks_turn)
             elif self.heuristic_red == "radius":
                 return radius_evaluation(state, is_blacks_turn)
-
-

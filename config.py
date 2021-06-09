@@ -17,13 +17,8 @@ NINF = -1000000
 # epsilon value for exploration moves
 # currently at 10%
 EPSILON = 0.13
-DEPTH = 6
+DEPTH = 2
 RMOVES = 0
-
-# which heuristic function to call
-HEURISTIC = "consecutive"
-# HEURISTIC = "radius"
-
 
 # radius heuristic constants
 # how big the radius is for the radius heuristic
@@ -31,13 +26,15 @@ RADIUS = 2
 SAME_COLOR_SCORE = 10
 EMPTY_SQUARE_SCORE = 2
 OPPONENT_COLOR_SCORE = -10
-OPPONENT_VALUE = -0.7
+OPPONENT_VALUE = -1.3
 
 
 # consecutive heuristic constants
-MAX_SCORE = 100
+MAX_SCORE = 1000
 THREE_SCORE = 20
 TWO_SCORE = 5
-OPPONENT_THREE_SCORE = -15
-OPPONENT_TWO_SCORE = -3
+OPPONENT_THREE_SCORE = -40
+OPPONENT_TWO_SCORE = -6
 
+# how many evaluation games to play
+N_EVALUATION_GAMES = 500
