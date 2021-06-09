@@ -47,7 +47,13 @@ class GameMenu:
         game.print_board()
         while not winner:
             if players_turn:
-                move = int(input('Enter a column to play (0-6): '))
+                valid_move = False
+                while not valid_move:
+                    move = int(input('Enter a column to play (0-6): '))
+                    if move < 0 or move > 6:
+                        print('Not a valid move. Try again.')
+                    else:
+                        valid_move = True
             else:
                 move = game.Alpha_Beta_Search(game.board)
             players_turn = not players_turn
