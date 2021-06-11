@@ -219,12 +219,9 @@ class Game:
         # chance for "exploration action"
         # random val between 0 and 1, if less that epsilon, choose rand
         if depth == config.DEPTH - 1:
-            rval = (random.randint(1, 100) / 100)
+            rval = random.random()
             if rval < config.EPSILON:
                 rval = random.randint(0, config.WIDTH - 1)
-                # ensure rnad action is valid
-                while(possibilities[rval] == config.NINF):
-                    rval = random.randint(0, config.WIDTH - 1)
 
                 config.RMOVES += 1
                 # return rand action + value

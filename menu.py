@@ -97,13 +97,15 @@ class GameMenu:
             game.animate = False
             game.heuristic_black = heuristic_black
             game.heuristic_red = heuristic_red
+            moves = 0
             if i % 100 == 0:
                 print(f'{i} games done')
-            while not winner:
+            while not winner and moves < 100:
                 move = game.Alpha_Beta_Search(game.board)
                 winner = game.play_move(move)
+                moves += 1
 
-            if winner is None:
+            if moves > 50:
                 drawn += 1
             else:
                 if winner == config.BLACK:
