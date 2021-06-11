@@ -1,11 +1,9 @@
+import config
 from Game import Game
 from config import N_EVALUATION_GAMES
 
 
 class GameMenu:
-    def __init__(self):
-        pass
-
     def main_menu(self):
         print('Connect 4 AI Program')
         print('====================')
@@ -86,13 +84,14 @@ class GameMenu:
         blacks_turn = True
         player1_score = 0
         player2_score = 0
+        drawn = 0
 
         print('| AI Player 1 |')
         heuristic_black = self.heuristic_selection()
         print('| AI Player 2 |')
         heuristic_red = self.heuristic_selection()
 
-        print('Playing {N_EVALUATION_GAMES} games of AI vs. AI')
+        print(f'Playing {N_EVALUATION_GAMES} games of AI vs. AI')
         for i in range(N_EVALUATION_GAMES):
             game = Game()
             game.animate = False
@@ -103,12 +102,16 @@ class GameMenu:
             while not winner:
                 move = game.Alpha_Beta_Search(game.board)
                 winner = game.play_move(move)
-                blacks_turn = not blacks_turn
 
-            if blacks_turn:
-                player2_score += 1
+            if winner is None:
+                drawn += 1
             else:
-                player1_score += 1
+                if winner == config.BLACK:
+                    player1_score += 1
+                else:
+                    player2_score += 1
+
             winner = False
         print(f'AI Player 1 won {100 * player1_score / N_EVALUATION_GAMES}% of the time')
         print(f'AI Player 2 won {100 * player2_score / N_EVALUATION_GAMES}% of the time')
+        print(f'{drawn} games were drawn.')

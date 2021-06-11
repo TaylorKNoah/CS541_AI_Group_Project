@@ -89,6 +89,13 @@ class Game:
 
     # check if the newest move won the game or not
     def is_it_winning_move(self, row, column):
+        # check for drawn state, return None if drawn
+        for i in range(6):
+            if self.board[0][i] == config.EMPTY:
+                break
+            if i == 6:
+                return None
+
         piece = self.board[row][column]
         # check for horizontal win
         furthest_right = 0
@@ -138,8 +145,8 @@ class Game:
         if furthest_down - furthest_up >= config.CONNECT_N - 1:
             return piece
 
-        # if no winner, return None
-        return None
+        # if no winner, return False
+        return False
 
     # Minimax algorithm with Alpha Beta Pruning
     def Alpha_Beta_Search(self, state):
