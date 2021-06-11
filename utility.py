@@ -3,7 +3,7 @@ import math
 
 
 # radius evaluation functions
-def radius_evaluation(state, is_blacks_turn):
+def radius_evaluation(state, is_blacks_turn, opponent_value=config.OPPONENT_VALUE):
     """Evaluates status of the board by looking at matching pieces within n. radius
     Args:
         state (list[list[str]]): A game board.
@@ -19,11 +19,11 @@ def radius_evaluation(state, is_blacks_turn):
         for col in range(config.WIDTH):
             # if it's not an empty space, add the piece's radius value to the total score
             if state[row][col] != config.EMPTY:
-                score += single_piece_radius(state, is_blacks_turn, row, col)
+                score += single_piece_radius(state, is_blacks_turn, row, col, opponent_value)
     return score
 
 
-def single_piece_radius(state, is_blacks_turn, row, col):
+def single_piece_radius(state, is_blacks_turn, row, col, opponent_value):
     """Evaluates status of a single piece by looking at others within n. radius
     Args:
         state (list[list[str]]): A game board.
@@ -63,7 +63,7 @@ def single_piece_radius(state, is_blacks_turn, row, col):
             else:
                 score += config.OPPONENT_COLOR_SCORE
     # return the score, or the negative/lessened version of the score if it's the opponent's turn
-    return score if center_isnt_opponent else int(config.OPPONENT_VALUE * score)
+    return score if center_isnt_opponent else int(opponent_value * score)
 
 
 # consecutive evaluation functions

@@ -18,6 +18,7 @@ class Game:
         self.blacks_turn = True
         self.heuristic_black = None
         self.heuristic_red = None
+        self.opponent_value = config.OPPONENT_VALUE
 
         # added this for ABSearch use
         # to keep seperate from actual game turn
@@ -304,9 +305,9 @@ class Game:
             if self.heuristic_black == "consecutive":
                 return consecutive_evaluation(state, is_blacks_turn)
             elif self.heuristic_black == "radius":
-                return radius_evaluation(state, is_blacks_turn)
+                return radius_evaluation(state, is_blacks_turn, self.opponent_value)
         else:
             if self.heuristic_red == "consecutive":
                 return consecutive_evaluation(state, is_blacks_turn)
             elif self.heuristic_red == "radius":
-                return radius_evaluation(state, is_blacks_turn)
+                return radius_evaluation(state, is_blacks_turn, self.opponent_value)
