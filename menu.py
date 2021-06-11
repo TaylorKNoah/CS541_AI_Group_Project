@@ -100,18 +100,17 @@ class GameMenu:
             moves = 0
             if i % 100 == 0:
                 print(f'{i} games done')
-            while not winner and moves < 100:
+            while not winner and moves < 51:
                 move = game.Alpha_Beta_Search(game.board)
                 winner = game.play_move(move)
                 moves += 1
 
-            if moves > 50:
-                drawn += 1
+            if winner == config.BLACK:
+                player1_score += 1
+            elif winner == config.RED:
+                player2_score += 1
             else:
-                if winner == config.BLACK:
-                    player1_score += 1
-                else:
-                    player2_score += 1
+                drawn += 1
 
             winner = False
         print(f'AI Player 1 won {100 * player1_score / N_EVALUATION_GAMES}% of the time')

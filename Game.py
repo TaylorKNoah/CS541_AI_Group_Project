@@ -89,13 +89,6 @@ class Game:
 
     # check if the newest move won the game or not
     def is_it_winning_move(self, row, column):
-        # check for drawn state, return None if drawn
-        for i in range(6):
-            if self.board[0][i] == config.EMPTY:
-                break
-            if i == 6:
-                return None
-
         piece = self.board[row][column]
         # check for horizontal win
         furthest_right = 0
